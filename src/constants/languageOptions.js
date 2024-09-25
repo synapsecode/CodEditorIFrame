@@ -1,9 +1,3 @@
-export const langMap = {
-    python: "py",
-    cpp: "c_cpp",
-    java: "java",
-};
-
 export const languageOptions = [
     {
         id: 62,
@@ -17,15 +11,12 @@ export const languageOptions = [
         label: "C (GCC 7.4.0)",
         value: "c",
     },
-
     {
         id: 54,
         name: "C++ (GCC 9.2.0)",
         label: "C++ (GCC 9.2.0)",
         value: "cpp",
     },
-
-
     {
         id: 71,
         name: "Python (3.8.1)",
@@ -63,49 +54,6 @@ export const languageOptions = [
         value: "go",
     },
     {
-        id: 75,
-        name: "C (Clang 7.0.1)",
-        label: "C (Clang 7.0.1)",
-        value: "c",
-    },
-    {
-        id: 70,
-        name: "Python (2.7.17)",
-        label: "Python (2.7.17)",
-        value: "python",
-    },
-    {
-        id: 76,
-        name: "C++ (Clang 7.0.1)",
-        label: "C++ (Clang 7.0.1)",
-        value: "cpp",
-    },
-
-    {
-        id: 52,
-        name: "C++ (GCC 7.4.0)",
-        label: "C++ (GCC 7.4.0)",
-        value: "cpp",
-    },
-    {
-        id: 49,
-        name: "C (GCC 8.3.0)",
-        label: "C (GCC 8.3.0)",
-        value: "c",
-    },
-    {
-        id: 53,
-        name: "C++ (GCC 8.3.0)",
-        label: "C++ (GCC 8.3.0)",
-        value: "cpp",
-    },
-    {
-        id: 50,
-        name: "C (GCC 9.2.0)",
-        label: "C (GCC 9.2.0)",
-        value: "c",
-    },
-    {
         id: 45,
         name: "Assembly (NASM 2.14.02)",
         label: "Assembly (NASM 2.14.02)",
@@ -117,13 +65,6 @@ export const languageOptions = [
         label: "Bash (5.0.0)",
         value: "bash",
     },
-    {
-        id: 47,
-        name: "Basic (FBC 1.07.1)",
-        label: "Basic (FBC 1.07.1)",
-        value: "basic",
-    },
-
     {
         id: 86,
         name: "Clojure (1.10.1)",
@@ -149,12 +90,6 @@ export const languageOptions = [
         value: "lisp",
     },
     {
-        id: 56,
-        name: "D (DMD 2.089.1)",
-        label: "D (DMD 2.089.1)",
-        value: "d",
-    },
-    {
         id: 57,
         name: "Elixir (1.9.4)",
         label: "Elixir (1.9.4)",
@@ -166,12 +101,7 @@ export const languageOptions = [
         label: "Erlang (OTP 22.2)",
         value: "erlang",
     },
-    {
-        id: 44,
-        label: "Executable",
-        name: "Executable",
-        value: "exe",
-    },
+
     {
         id: 87,
         name: "F# (.NET Core SDK 3.1.202)",
@@ -184,7 +114,6 @@ export const languageOptions = [
         label: "Fortran (GFortran 9.2.0)",
         value: "fortran",
     },
-
     {
         id: 88,
         name: "Groovy (3.0.3)",
@@ -197,8 +126,6 @@ export const languageOptions = [
         label: "Haskell (GHC 8.8.1)",
         value: "haskell",
     },
-
-
     {
         id: 78,
         name: "Kotlin (1.3.70)",
@@ -225,18 +152,6 @@ export const languageOptions = [
         value: "ocaml",
     },
     {
-        id: 66,
-        name: "Octave (5.1.0)",
-        label: "Octave (5.1.0)",
-        value: "octave",
-    },
-    {
-        id: 67,
-        name: "Pascal (FPC 3.0.4)",
-        label: "Pascal (FPC 3.0.4)",
-        value: "pascal",
-    },
-    {
         id: 85,
         name: "Perl (5.28.1)",
         label: "Perl (5.28.1)",
@@ -249,25 +164,11 @@ export const languageOptions = [
         value: "php",
     },
     {
-        id: 43,
-        label: "Plain Text",
-        name: "Plain Text",
-        value: "text",
-    },
-    {
-        id: 69,
-        name: "Prolog (GNU Prolog 1.4.5)",
-        label: "Prolog (GNU Prolog 1.4.5)",
-        value: "prolog",
-    },
-
-    {
         id: 80,
         name: "R (4.0.0)",
         label: "R (4.0.0)",
         value: "r",
     },
-
     {
         id: 73,
         name: "Rust (1.40.0)",
@@ -286,12 +187,5 @@ export const languageOptions = [
         name: "Swift (5.2.3)",
         label: "Swift (5.2.3)",
         value: "swift",
-    },
-
-    {
-        id: 84,
-        name: "Visual Basic.Net (vbnc 0.0.0.5943)",
-        label: "Visual Basic.Net (vbnc 0.0.0.5943)",
-        value: "vbnet",
     },
 ];

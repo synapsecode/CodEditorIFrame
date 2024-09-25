@@ -2,6 +2,11 @@ import React, { useState } from 'react'
 // import copy from 'copy-to-clipboard';
 import Editor from "@monaco-editor/react";
 
+const getLangID = (lang) => {
+    let matches = languageOptions.filter((e) => e.value === lang);
+    let match = matches.length > 0 ? matches[0] : { id: -1 };
+    return match.id;
+}
 
 const CodeEditorWindow = ({ onChange, language, code, theme, isFullScreen, Fontoptions }) => {
     const [value, setValue] = useState(code || "")
@@ -12,6 +17,10 @@ const CodeEditorWindow = ({ onChange, language, code, theme, isFullScreen, Fonto
     const handleEditorChange = (value) => {
         setValue(value);
         onChange("code", value);
+        window.parent.postMessage(JSON.stringify({
+            'code': value,
+            'langId': getLangID(language),
+        }), '*');
         // copy(value); //This continuously copies over contents into your clipboard
     };
     return (
