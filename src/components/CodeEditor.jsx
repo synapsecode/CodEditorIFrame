@@ -3,21 +3,15 @@ import CodeEditorWindow from "./CodeEditorWindow";
 import { languageOptions } from "../constants/languageOptions";
 import { snippet } from "../constants/snippet";
 import './codeEditor.css'
-import { FaRegCopy } from 'react-icons/fa';
 import "react-toastify/dist/ReactToastify.css";
 import { defineTheme } from "../lib/defineTheme"
 import LanguagesDropdown from './LanguageDropdown';
 import ThemeDropdown from './ThemeDropdown';
-import copy from 'copy-to-clipboard';
 import executeCodeOnJudge0 from '../utils/codeexecute'
 
 
-//Compiler API  deploy on server:  https://github.com/Jaagrav/CodeX-API/tree/master/executeCode
-//Realtime code update : https://github.com/RisingGeek/CodeEditor
-
-const defaultCode = `// Type Your code here 1`;
+const defaultCode = `// Type Your code here`;
 const CodeEditor = () => {
-
     function loadTheme() {
         let th = { label: 'Blackboard', value: 'blackboard', key: 'blackboard' }
         if (localStorage.getItem("usertheme")) {
@@ -25,7 +19,6 @@ const CodeEditor = () => {
             th = JSON.parse(localStorage.getItem("usertheme"))
         }
         return th;
-
     }
 
     const [code, setCode] = useState(defaultCode);
@@ -47,7 +40,6 @@ const CodeEditor = () => {
             }
         }
     };
-
 
     useEffect(() => {
         const prevCode = JSON.parse(localStorage.getItem(language.value));
@@ -76,10 +68,9 @@ const CodeEditor = () => {
                     localStorage.setItem("usertheme", JSON.stringify(theme));
                 })
         }
-
     }
 
-    const handleCompile = () => {
+    const compileCode = () => {
         const apiKey = '41599ae506msh68285b0f476e7aep1fe9d9jsn13b33e53059e';
         executeCodeOnJudge0({
             langId: language.id,
@@ -92,7 +83,6 @@ const CodeEditor = () => {
         }).catch((err) => {
             console.error(err);
         });
-
     };
 
     useEffect(() => {
@@ -100,10 +90,6 @@ const CodeEditor = () => {
         console.log("calling define theme from useEffect")
         handleThemeChange(th);
     }, []);
-
-    const copyToClipboard = () => {
-        copy(code);
-    }
 
     return (
         <>
@@ -139,17 +125,6 @@ const CodeEditor = () => {
                     flex: 1
                 }} >
 
-                    <button onClick={copyToClipboard} type="button" id="copytxt" className="flex items-center py-2 px-4 mr-3  text-xs font-medium  rounded-lg border focus:outline-none hover:bg-gray-700 hover:text-blue-700 focus:z-10  focus:ring-gray-500 bg-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
-                        <FaRegCopy fontSize={18} color="white" />
-                    </button>
-
-                    <button
-
-                        onClick={handleCompile} type="button" className="text-white bg-indigo-600 hover:bg-indigo-800   focus:outline-none font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center focus:ring-[#2557D6]/50 mr-2">
-                        {
-                            "Compile Code"
-                        }
-                    </button>
                 </div>
             </div >
 
