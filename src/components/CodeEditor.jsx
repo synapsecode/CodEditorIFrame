@@ -8,6 +8,8 @@ import { defineTheme } from "../lib/defineTheme"
 import LanguagesDropdown from './LanguageDropdown';
 import ThemeDropdown from './ThemeDropdown';
 import executeCodeOnJudge0 from '../utils/codeexecute'
+import { useParams } from 'react-router-dom';
+import { getLangID } from './CodeEditorWindow';
 
 
 const defaultCode = `// Type Your code here`;
@@ -24,14 +26,15 @@ const CodeEditor = () => {
     const [code, setCode] = useState(defaultCode);
     const [theme, setTheme] = useState("");
     const [font_size, set_font_size] = useState(16)
-    const [language, setLanguage] = useState(JSON.parse(localStorage.getItem("language")) || languageOptions[0]);
+    const [language, setLanguage] = useState(languageOptions[0]);
+    let { lang } = useParams();
 
 
     const onChange = (action, data) => {
         switch (action) {
             case "code": {
                 setCode(data);
-                window.localStorage.setItem(language.value, JSON.stringify(data))
+                // window.localStorage.setItem(language.value, JSON.stringify(data))
                 break;
             }
 
@@ -42,14 +45,16 @@ const CodeEditor = () => {
     };
 
     useEffect(() => {
-        const prevCode = JSON.parse(localStorage.getItem(language.value));
-        setCode(prevCode || snippet(language.value));
-    }, [language.value]);
-
+        setCode(snippet(language.value));
+        console.log('Initial CodeSync Completed', snippet(language.value));
+        window.parent.postMessage(JSON.stringify({
+            'code': snippet(language.value),
+            'langId': getLangID(language),
+        }), '*');
+    }, [language]);
 
     const onSelectChange = (sl) => {
         setLanguage(sl);
-        localStorage.setItem("language", JSON.stringify(sl));
     };
 
     async function handleThemeChange(th) {
@@ -63,7 +68,6 @@ const CodeEditor = () => {
             console.log("calling define theme ");
             defineTheme(theme.value)
                 .then((_) => {
-
                     setTheme(theme);
                     localStorage.setItem("usertheme", JSON.stringify(theme));
                 })
@@ -85,26 +89,55 @@ const CodeEditor = () => {
         });
     };
 
+    const setParamLang = () => {
+        if (lang === null || lang === undefined) return;
+        const langs = languageOptions.filter((x) => x.value === lang);
+        const language = langs.length === 0 ? languageOptions[0] : langs[0];
+        onSelectChange(language);
+    }
+
     useEffect(() => {
         let th = loadTheme();
         console.log("calling define theme from useEffect")
         handleThemeChange(th);
+        setParamLang();
+
+        window.addEventListener('message', (e) => {
+            if (typeof e.data === 'string' || e.data instanceof String) {
+                if (e.data.toString().includes('FLUTTER_WEB_CODESYNC::')) {
+                    const dat = e.data.toString().replaceAll('FLUTTER_WEB_CODESYNC::', '');
+                    setCode(atob(dat));
+                    console.log('FLUTTER_WEB_CODESYNC_COMPLETE');
+                }
+            }
+        });
     }, []);
 
+    const solo = (lang !== undefined && lang !== null)
     return (
         <>
+
             <div className="flex flex-row border-2 border-t-0 border-gray-600 gap-4" >
                 <br />
 
-                <div className="dropdownInner">
-                    <LanguagesDropdown onSelectChange={onSelectChange} Userlanguage={language} />
-                </div>
-                <div className="dropdownInner">
-                    <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-                </div>
+                {!solo &&
+                    <>
+                        <div className="dropdownInner">
+                            <LanguagesDropdown onSelectChange={onSelectChange} Userlanguage={language} key={lang} />
+                        </div>
+                        <div className="dropdownInner">
+                            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
+                        </div>
+                    </>
+                }
+                {
+                    solo && <div className="dropdownInner">
+                        <h1 className='text-white text-lg mt-1'>{language.value}</h1>
+                    </div>
+                }
 
                 <div className="px-4 justify-end">
-                    <div className="d-flex px-2 py-1 rounded-lg border focus:outline-none hover:bg-gray-700 hover:text-blue-700 focus:z-10  focus:ring-gray-500 bg-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+                    <div className="d-flex px-2 py-1 rounded-lg border focus:outline-none hover:bg-gray-700 hover:text-blue-700 focus:z-10  focus:ring-gray-500 bg-gray-900 border-gray-600 hover:text-white hover:bg-gray-700">
                         <label htmlFor="fontsize_lable" className="form-label mr-2 text-gray-100">Font Size</label>
                         <input
                             type="number"
@@ -121,6 +154,7 @@ const CodeEditor = () => {
                 </div>
 
 
+
                 <div className="px-4  mx-auto justify-end flex items-center" style={{
                     flex: 1
                 }} >
@@ -130,7 +164,7 @@ const CodeEditor = () => {
 
             < div className="editorlayout flex flex-row  space-x-4 items-start border-2 border-t-0 border-b-0 border-gray-600"
                 style={{
-                    height: `calc(100vh - 6.4vh )`,
+                    height: `calc(100vh - ${solo ? '0vh' : '6.4vh'})`,
                 }}>
                 <CodeEditorWindow
                     code={code}

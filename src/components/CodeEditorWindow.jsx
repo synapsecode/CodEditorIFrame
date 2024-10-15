@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Editor from "@monaco-editor/react";
 import { languageOptions } from '../constants/languageOptions';
 
-const getLangID = (lang) => {
+export const getLangID = (lang) => {
     let matches = languageOptions.filter((e) => e.value === lang);
     let match = matches.length > 0 ? matches[0] : { id: -1 };
     return match.id;
@@ -12,6 +12,7 @@ const getLangID = (lang) => {
 const CodeEditorWindow = ({ onChange, language, code, theme, isFullScreen, Fontoptions }) => {
     const [value, setValue] = useState(code || "")
 
+    //Sync Code Changes
     React.useEffect(() => {
         window.parent.postMessage(JSON.stringify({
             'code': value,

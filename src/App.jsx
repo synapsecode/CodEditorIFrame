@@ -7,6 +7,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route exact path="/" element={<CodeEditor />} />
+          <Route exact path="/:lang" element={<CodeEditor />} />
         </Routes>
       </Router>
     </>
