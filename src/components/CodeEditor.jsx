@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CodeEditorWindow from "./CodeEditorWindow";
 import { languageOptions } from "../constants/languageOptions";
-import { snippet } from "../constants/snippet";
+// import { snippet } from "../constants/snippet";
 import './codeEditor.css'
 import "react-toastify/dist/ReactToastify.css";
 import { defineTheme } from "../lib/defineTheme"
@@ -44,14 +44,14 @@ const CodeEditor = () => {
         }
     };
 
-    useEffect(() => {
-        setCode(snippet(language.value));
-        console.log('Initial CodeSync Completed', snippet(language.value));
-        window.parent.postMessage(JSON.stringify({
-            'code': snippet(language.value),
-            'langId': getLangID(language),
-        }), '*');
-    }, [language]);
+    // useEffect(() => {
+    //     setCode(snippet(language.value));
+    //     console.log('Initial CodeSync Completed', snippet(language.value));
+    //     window.parent.postMessage(JSON.stringify({
+    //         'code': snippet(language.value),
+    //         'langId': getLangID(language),
+    //     }), '*');
+    // }, [language]);
 
     const onSelectChange = (sl) => {
         setLanguage(sl);
@@ -74,20 +74,20 @@ const CodeEditor = () => {
         }
     }
 
-    const compileCode = () => {
-        const apiKey = '41599ae506msh68285b0f476e7aep1fe9d9jsn13b33e53059e';
-        executeCodeOnJudge0({
-            langId: language.id,
-            codestring: code,
-            stdin: "",
-        },
-            apiKey,
-        ).then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.error(err);
-        });
-    };
+    // const compileCode = () => {
+    //     const apiKey = '41599ae506msh68285b0f476e7aep1fe9d9jsn13b33e53059e';
+    //     executeCodeOnJudge0({
+    //         langId: language.id,
+    //         codestring: code,
+    //         stdin: "",
+    //     },
+    //         apiKey,
+    //     ).then((res) => {
+    //         console.log(res);
+    //     }).catch((err) => {
+    //         console.error(err);
+    //     });
+    // };
 
     const setParamLang = () => {
         if (lang === null || lang === undefined) return;
@@ -164,7 +164,7 @@ const CodeEditor = () => {
 
             < div className="editorlayout flex flex-row  space-x-4 items-start border-2 border-t-0 border-b-0 border-gray-600"
                 style={{
-                    height: `calc(100vh - ${solo ? '0vh' : '6.4vh'})`,
+                    height: `calc(100vh - 6.4vh)`,
                 }}>
                 <CodeEditorWindow
                     code={code}
