@@ -12,25 +12,29 @@ export const getLangID = (lang) => {
 const CodeEditorWindow = ({ onChange, language, code, theme, isFullScreen, Fontoptions }) => {
     const [value, setValue] = useState(code || "")
 
-    //Sync Code Changes
-    React.useEffect(() => {
-        window.parent.postMessage(JSON.stringify({
+    function sync(val) {
+        const payload = JSON.stringify({
             'code': value,
             'langId': getLangID(language),
-        }), '*');
+        });
+        const msg = `CODEFRAME_INSYNC::${payload}`;
+        window.parent.postMessage(msg, '*');
+    }
+
+    //Sync Code Changes
+    React.useEffect(() => {
         setValue(code)
+        sync(code);
     }, [code])
 
 
     const handleEditorChange = (value) => {
         setValue(value);
         onChange("code", value);
-        window.parent.postMessage(JSON.stringify({
-            'code': value,
-            'langId': getLangID(language),
-        }), '*');
+        sync(code);
         // copy(value); //This continuously copies over contents into your clipboard
     };
+
     return (
         <div className="overlay mt-1 overflow-hidden w-full h-full shadow-4xl" >
             <Editor
