@@ -92,7 +92,12 @@ const CodeEditor = () => {
     const setParamLang = () => {
         if (lang === null || lang === undefined) return;
         const langs = languageOptions.filter((x) => x.value === lang);
-        const language = langs.length === 0 ? languageOptions[0] : langs[0];
+        const language = langs.length === 0 ? {
+            id: 0,
+            name: lang,
+            label: lang,
+            value: lang,
+        } : langs[0];
         onSelectChange(language);
     }
 
