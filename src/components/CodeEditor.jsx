@@ -110,8 +110,21 @@ const CodeEditor = () => {
         window.addEventListener('message', (e) => {
             if (typeof e.data === 'string' || e.data instanceof String) {
                 if (e.data.toString().includes('FLUTTER_WEB_CODESYNC::')) {
+                    //Sync Code
                     const dat = e.data.toString().replaceAll('FLUTTER_WEB_CODESYNC::', '');
-                    setCode(atob(dat));
+                    const [code, lang] = dat.split('::');
+                    setCode(atob(code));
+                    if (lang !== undefined) {
+                        //Sync Language
+                        const langs = languageOptions.filter((x) => x.value === lang);
+                        const language = langs.length === 0 ? {
+                            id: 0,
+                            name: lang,
+                            label: lang,
+                            value: lang,
+                        } : langs[0];
+                        setLanguage(language)
+                    }
                     console.log('FLUTTER_WEB_CODESYNC_COMPLETE');
                 }
             }
